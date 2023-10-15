@@ -1,0 +1,64 @@
+section.mat-typography
+  nav.navbar.is-link( role="navigation", aria-label="main navigation")
+    div.navbar-brand
+      a.navbar-item(routerLinkActive='active', [routerLink]="'/home'")
+        img.has-shadow(src="/assets/logo/elsquare.jpg", style="height: 28px; width:28px; ")
+      a.navbar-burger( role="button", aria-label="menu", aria-expanded="false", data-target="navbarAdminSTR")
+        span( aria-hidden="true")
+        span( aria-hidden="true")
+        span( aria-hidden="true")
+    div.navbar-menu#navbarAdminSTR
+      .navbar-start
+        a.navbar-item(routerLinkActive='active', [routerLink]="'/home'")
+          mat-icon home
+          | Home
+        a.navbar-item(routerLinkActive='active', [routerLink]="'/apps'")
+          mat-icon run_circle
+          | Apps
+        a.navbar-item(routerLinkActive='active', [routerLink]="'/user'")
+          mat-icon person
+          | Users
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link System Admin
+          .navbar-dropdown
+            a.navbar-item(routerLinkActive='active', [routerLink]="'/user'")
+              mat-icon person
+              span User Administration
+            a.navbar-item(mat-button, routerLinkActive='active', [routerLink]="'/template'")
+              mat-icon note_add
+              span Text Templates
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link
+            mat-icon.mr-1.align-middle account_tree
+            | STR Content Setup
+          .navbar-dropdown
+            a.navbar-item(routerLinkActive='active', [routerLink]="'/domains'")
+              | Domains
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link
+            mat-icon.mr-1.align-middle help
+            | STR Content Setup
+          .navbar-dropdown
+            a.navbar-item( target="_blank", href="https://docs.google.com/document/d/1fP0umyKlSfHtuVBswo6IalZAT82eTlJnsEnMk2wKd9Y/edit?usp=sharing")
+              mat-icon menu_book
+              span.align-middle.ml-1 STR Process
+            a.navbar-item(*ngIf="!isProduction", mat-button, target="_blank", href="https://docs.google.com/document/d/1XZptmPKqJyoNt1GZ_pgk4ZAHu0sAQhiEF3DoGc3JM08/edit#heading=h.qiukupk3p0gq")
+              mat-icon weekend
+              span.align-middle.ml-1 Full Testing Guide
+            a.navbar-item(*ngIf="!isProduction", mat-button, target="_blank", href="https://docs.google.com/document/d/1XH4aKyw6UyrNalmAHHewZOltmVPb0oz2sbwP9R6_QNk/edit#")
+              mat-icon weekend
+              span.align-middle.ml-1 Partner & Enroll Testing Guide
+            a.navbar-item(*ngIf="!isProduction", mat-button, target="_blank", href="https://docs.google.com/document/d/1IItRI-My7kZZYGxth1-a1_SqtnqRvIaST1wy4G8HGts/edit#heading=h.glhnqgje4tp")
+              mat-icon bug_report
+              span.align-middle.ml-1 Report Error
+      .navbar-end
+        .navbar-item
+          .buttons
+            //ng-container(*ngIf="(me$ | async)?.idAdmUser > 0; else showNoUser")
+            //  a.button.is-light(*ngIf="me$ | async as me", (click)="logout()")
+            //    mat-icon.mr-1 logout
+            //    | Logout {{me.userName}}
+            //ng-template#showNoUser
+            //  a.button(routerLinkActive='true', [routerLink]="'/login'")
+            //    mat-icon.mr-1 login
+            //    | Login!

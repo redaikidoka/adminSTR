@@ -1,0 +1,59 @@
+app-menu-main
+
+section.hero.is-medium.is-link.mat-typography
+  .hero-body
+    p.title You are logged in to webSTR's Admin Service
+    p.subtitle version {{appVersion}}
+  .level.m-2
+    .level-left
+      .level-item
+        nav.breadcrumb(aria-label="breadcrumbs")
+          ul
+            li
+              a([routerLink]="'/login'")
+                em adminSTR
+            li
+              a(href="/home") Home
+    .level-right
+      .level-item
+        //a([routerLink]="'/login'") Logout {{me?.userName}}
+        a.button((click)="logout()")
+          mat-icon.mr-1 logout
+          | Logout {{me?.userName}}
+
+
+section.mt-2.container
+  .box.mb-2
+    p.title Welcome
+    p.subtitle This is the home screen for webSTR
+    p Below, find the apps that are defined in webSTR, with links to dig in and edit them!
+
+  .tile.is-ancestor
+    .tile.is-parent
+      article.tile.is-child.notification.is-info(*ngFor="let app of apps$ | async")
+        p.title(matTooltip="App ID: {{app.idAdmApp}}")  {{ app.title }}
+        p.subtitle {{ app.description }}
+          mat-icon.ml-2.float-right.align-middle(matTooltip="Preferences JSON:\n {{app.appPreferences}}", *ngIf="app.appPreferences") topic
+        hr
+        .block
+          p.mb-2
+            em If it looks like a link, you can probably click it. :)
+        .block
+          strong.tag.mr-2.p-1 {{app.frameworks?.length || 'No'}}
+          span Frameworks
+        .block
+          strong.tag.mr-2.p-1 {{ app.periods?.length|| 'No' }}
+          span Annual Periods
+        .block
+          strong.tag.mr-2.p-1 {{ app.relationships?.length|| 'No' }}
+          span Relationships
+        .block
+          strong.tag.mr-2.p-1 {{ app.strTypes?.length|| 'No' }}
+          span STR Types
+        .block
+          strong.tag.mr-2.p-1 {{ app.seasons?.length|| 'No' }}
+          span Seasons
+        .block
+          a([routerLink]="['/template', app.idAdmApp]")
+            strong.tag.mr-2.p-1 {{ app.templates?.length|| 'No' }}
+            span Text Templates

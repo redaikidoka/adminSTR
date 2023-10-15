@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.w-100 {
+  width: 100%;
+}
+
+.w-75 {
+  width: 75%;
+}
+.w-50 {
+  width: 50%;
+}
+
+.rowIcon {
+  color: #888;
+  opacity: 0.8;
+}
+
+.mat-icon {
+  vertical-align: middle;
+}

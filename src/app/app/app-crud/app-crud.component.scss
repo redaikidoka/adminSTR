@@ -1,0 +1,56 @@
+.header {
+    font-weight: lighter;
+    margin-bottom: 15px;
+    font-size: 20px;
+    border-bottom: 1px solid rgb(236, 236, 236);
+    padding: 0px 15px 15px 15px;
+    display: flex;
+    width: 100%;
+}
+
+.appSection {
+    background-color: antiquewhite;
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    cursor: pointer;
+}
+
+.createApp {
+    background-color: rgb(0, 174, 255); 
+    color: white;
+    cursor: pointer;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.appForm {
+    background-color: rgb(235, 251, 255);
+    border: 1px solid rgb(236, 236, 236);
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    display: inline-flex;
+    vertical-align: middle;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+.new_app {
+    text-align: center;
+}
+
+.new_app span {
+    color: rgb(0, 132, 255);
+    cursor: pointer;
+}
+
+.new_app span:hover, .appSection:hover {
+    opacity: 0.8;
+}

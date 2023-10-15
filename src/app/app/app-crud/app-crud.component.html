@@ -1,0 +1,146 @@
+<app-menu-main></app-menu-main>
+<nav class="navbar is-link mat-typography mb-2" style="z-index: 1;">
+    <div class="level m-2">
+      <div class="level-left">
+        <div class="level-item has-text-light">
+          <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li><a class="has-text-light" routerLink="/home"><em>adminSTR</em></a></li>
+              <li class="has-text-light"><a class="has-text-light" routerLink="/apps">Apps</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+<section class="mat-typography">
+    <div class="container mt-4">
+        <!-- <div class="columns">
+            <div class="column is12">
+                <div class="header">
+                    <mat-icon class="icon">run_circle</mat-icon>Apps
+                </div>
+            </div>
+        </div> -->
+        <div class="columns">
+            <div class="column is-one-third-tablet">
+                <div class="box">
+                    <p class="subtitle">
+                        <mat-icon class="mr-1 is-info">note_add</mat-icon>Select an App
+                    </p>
+                    <hr/>
+                    <div class="block">
+                        <mat-selection-list class="w-100" [multiple]="false">
+                            <mat-list-option class="has-background-primary has-text-light" *ngIf="!isCreate" (click)="newApp(ngAppFormGroup)">
+                                <small>Add New App</small>
+                                <mat-icon matListIcon="matListIcon">add</mat-icon>
+                            </mat-list-option>
+                            <mat-list-option *ngFor="let app of appList$ | async" [value]="app.idAdmApp" [selected]="app.idAdmApp === admApp.idAdmApp" (click)="isLoading ? false : editApp(app)">
+                                <small class="align-middle" matTooltip="{{app?.description}}">{{app.title}}</small>
+                                <mat-icon matListIcon="matListIcon" matTooltip="Delete App" color="accent" (click)="isLoading ? false : deleteApp(ngAppFormGroup, app)">delete</mat-icon>
+                                <mat-icon class="rowIcon" matListIcon="matListIcon" matTooltip="Edit Template">edit</mat-icon>
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+                </div>
+                <!-- <mat-card>
+                    <div class="appSection createApp" *ngIf="!isCreate" (click)="newApp(ngAppFormGroup)">
+                        CREATE NEW APP
+                        <span class="example-spacer"></span>
+                        <mat-icon>add</mat-icon>
+                    </div>
+                    <div *ngFor="let app of appList" class="appSection" matTooltip="{{app?.description}}">
+                        <div>{{app.title}}</div>
+                        <span class="example-spacer"></span>
+                        <mat-icon color="primary" (click)="isLoading ? false : editApp(app)">edit</mat-icon>&nbsp;&nbsp;
+                        <mat-icon color="warn" (click)="isLoading ? false : deleteApp(app)">delete</mat-icon>
+                    </div>
+                </mat-card> -->
+            </div>
+            <div class="column is-two-thirds-tablet">
+                <div class="box">
+                <!-- <div class="appForm"> -->
+                    <form [formGroup]="appFormGroup" (ngSubmit)="saveApp(ngAppFormGroup)" #ngAppFormGroup="ngForm">
+                        <div class="title">{{isCreate ? 'Creating App' : 'Editing App'}}</div>
+                        <hr/>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>App Title</mat-label>
+                            <input matInput required formControlName="title" placeholder="App Title">
+                            <mat-error>Please enter app title</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>App Description</mat-label>
+                            <textarea matInput formControlName="description" placeholder="App Description"> </textarea>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>App Preferences</mat-label>
+                            <textarea matInput formControlName="appPreferences" placeholder="App Preferences"> </textarea>
+                            <mat-hint>Only JSON value allowed. Validate your json here -> https://jsonlint.com/</mat-hint>
+                            <mat-error>Please enter a valid JSON</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>Help Score</mat-label>
+                            <mat-icon matTooltip="Help Score URL" matSuffix>link</mat-icon>
+                            <input matInput formControlName="helpScore" placeholder="http://docs.google.com/helpscore">
+                            <mat-error>Please enter a valid url</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>Help View</mat-label>
+                            <mat-icon matTooltip="Help View URL" matSuffix>link</mat-icon>
+                            <input matInput formControlName="helpView" placeholder="http://docs.google.com/helpview">
+                            <mat-error>Please enter a valid url</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>Help Summary</mat-label>
+                            <mat-icon matTooltip="Help Summary URL" matSuffix>link</mat-icon>
+                            <input matInput formControlName="helpSummary" placeholder="http://docs.google.com/helpsummary">                            <mat-error>Please enter a valid url</mat-error>
+                            <mat-error>Please enter a valid url</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>Help Calibrate</mat-label>
+                            <mat-icon matTooltip="Help Calibrate URL" matSuffix>link</mat-icon>
+                            <input matInput formControlName="helpCalibrate" placeholder="http://docs.google.com/helpcalibrate">
+                            <mat-error>Please enter a valid url</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mb-2">
+                            <mat-label>Help Facilitate</mat-label>
+                            <mat-icon matTooltip="Help Facilitate URL" matSuffix>link</mat-icon>
+                            <input matInput formControlName="helpFacilitate" placeholder="http://docs.google.com/helpfacilitate">
+                            <mat-error>Please enter a valid url</mat-error>
+                        </mat-form-field>
+                        <div class="block mt-2">
+                            <div class="level">
+                              <div class="level-left">
+                                <div class="level-item">
+                                    <button *ngIf="!isCreate" class="m-1" mat-button="mat-button" type="button" 
+                                        mat-raised-button="mat-raised-button" color="warn" (click)="isLoading ? false : deleteApp(ngAppFormGroup)">Delete
+                                        <mat-icon class="ml-1">delete</mat-icon>
+                                    </button>
+                                    <button *ngIf="isCreate" class="m-1" mat-raised-button color="warn" type="reset" [disabled]="isLoading" (click)="newApp(ngAppFormGroup)">
+                                        Clear
+                                    </button>
+                                </div>
+                              </div>
+                              <div class="level-right">
+                                <div class="level-item">
+                                  <button class="m-1" mat-button="mat-button" mat-raised-button="mat-raised-button" color="primary" 
+                                    [disabled]="isLoading || appFormGroup.invalid" type="submit">{{isLoading ? 'Loading' : isCreate ? 'Create' : 'Update'}}
+                                    <mat-icon class="ml-1">save</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- <div style="text-align: center;">
+                            <button mat-raised-button type="submit" color="primary" [disabled]="isLoading">
+                                {{isLoading ? 'Loading' : isCreate ? 'Create' : 'Update'}}
+                            </button>&nbsp;&nbsp;
+                            <button mat-raised-button color="warn" type="reset" [disabled]="isLoading" (click)="newApp(ngAppFormGroup)">Clear</button>
+                        </div> -->
+                    </form>
+                <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

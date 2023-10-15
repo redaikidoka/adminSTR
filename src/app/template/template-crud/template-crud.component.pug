@@ -1,0 +1,91 @@
+
+app-menu-main
+nav.navbar.is-link.mat-typography.mb-2
+  .level.m-2
+    .level-left
+      .level-item.has-text-light
+        nav.breadcrumb(aria-label="breadcrumbs")
+          ul
+            li
+              a.has-text-light([routerLink]="'/login'")
+                em adminSTR
+            li.has-text-light
+              a.has-text-light([routerLink]="'/template'") Text Templates
+
+
+section.mt-1.mat-typography
+  .container.mt-1
+    .columns.mt-2
+      .column.is-one-third-tablet
+        //a.ml-2.float-right(mat-button, mat-raised-button, target="_blank", href='https://docs.google.com/document/d/1ThSdM6BRPA_LhYTi6rCKGTVqJ9bxl34yE3W7-0I3Nmo/edit#')
+        //  mat-icon(matTooltip="Help") help_outline
+        mat-form-field.w-100
+          mat-label
+            mat-icon run_circle
+            span.ml-2 Select An App To Get Started
+          mat-select( [(value)] = 'selectedApp', (selectionChange)="appSelected($event)", required)
+            mat-select-trigger.align-middle
+              span.align-middle {{selectedApp?.title}}
+            mat-option(*ngFor="let a of appList$ | async", [value]="a", matTooltip="{{a?.description}}") {{ a.title }}
+              mat-icon.ml-1(*ngIf="a.description", matTooltip="{{a.description}}") info
+              //mat-icon.ml-1(*ngIf="a.appPreferences", matTooltip="{{a.appPreferences}}" ) note
+    .columns(*ngIf="hasApp()")
+      .column.is-one-third-tablet
+        .box
+          p.subtitle
+            mat-icon.mr-1.is-info note_add
+            | Select a Template
+          hr
+          .block
+            mat-selection-list#templates( [multiple]="false").w-100
+              mat-list-option.has-background-primary.has-text-light(*ngIf="status !== 'Creating'", (click)="createTemplate()")
+                small Add New Template
+                mat-icon(matListIcon) add
+              mat-list-option(*ngFor="let t of templateList$ | async ", [value]="t")
+                small.align-middle((click)="selectTemplate(t)", matTooltip="{{t.templateDescription}}" )
+                  //mat-icon.mr-1(matListIcon, *ngIf="t.templateDescription", matTooltip="{{t.templateDescription}}") info
+                  | {{t.templateName}}
+                  //mat-icon.ml-1(matListIcon, *ngIf="t.templateText", matTooltip="{{t.templateText}}" ) notes
+                //span(style="flex: 1 1 auto;")
+                mat-icon(matListIcon, matTooltip="Delete", color="accent", (click)="[selectTemplate(t), deleteTemplate()]") delete
+                mat-icon.rowIcon(matListIcon, (click)="selectTemplate(t)", matTooltip="Edit Template") edit
+          //.block
+          //  button.button.is-align-content-end.is-primary( [disabled]="(!selectedApp || !selectedApp?.idAdmApp || selectedApp?.idAdmApp === 0)", (click)="createTemplate()") Add New
+          //    mat-icon.ml-1 add
+      .column.is-two-thirds-tablet
+        .box(*ngIf="status !== 'Empty'")
+          form( [formGroup]="templateFormGroup" )
+            .title {{status}} Text Template
+            hr
+
+            mat-form-field.w-100
+              mat-label Template Name
+              <input matInput required formControlName='templateName' placeholder="Midwest Overall Themes" >
+            br
+            mat-form-field.w-100( appearance="fill" )
+              mat-label Template Description
+              <textarea matInput formControlName='templateDescription' placeholder="Used by the midwest region to help support overall themes"> </textarea>
+            br
+            mat-form-field.w-100
+              mat-label Template Text
+              <textarea matInput required formControlName='templateText' rows="8" placeholder="the actual text you want to insert" > </textarea>
+            br
+            mat-form-field.w-100( appearance="fill" )
+              mat-label Template Link
+              <input matInput type="url" formControlName='templateLink' placeholder="http://docs.google.com/mytemplateinfo" >
+            br
+            mat-form-field( appearance="fill" )
+              mat-label Sort Order
+              <input matInput type="number" formControlName='sortOrder' placeholder="http://docs.google.com/mytemplateinfo" >
+            br
+
+            .block.mt-2
+              .level
+                .level-left
+                  .level-item
+                    button.m-1(mat-button, mat-raised-button, color="warn", (click)="deleteTemplate()") Delete
+                      mat-icon.ml-1 delete
+                .level-right
+                  .level-item
+                    button.m-1(mat-button, mat-raised-button, color="primary", [disabled]="templateFormGroup.invalid", (click)="updateTemplate()") Save
+                      mat-icon.ml-1 save

@@ -1,0 +1,106 @@
+
+<app-menu-main></app-menu-main>
+<nav class="navbar is-link mat-typography mb-2">
+  <div class="level m-2">
+    <div class="level-left">
+      <div class="level-item has-text-light">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li><a class="has-text-light" [routerLink]="'/login'"><em>adminSTR</em></a></li>
+            <li class="has-text-light"><a class="has-text-light" [routerLink]="'/template'">Text Templates</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</nav>
+<section class="mt-1 mat-typography">
+  <div class="container mt-1">
+    <div class="columns mt-2">
+      <div class="column is-one-third-tablet">
+        <!--a.ml-2.float-right(mat-button, mat-raised-button, target="_blank", href='https://docs.google.com/document/d/1ThSdM6BRPA_LhYTi6rCKGTVqJ9bxl34yE3W7-0I3Nmo/edit#')-->
+        <!--  mat-icon(matTooltip="Help") help_outline-->
+        <mat-form-field class="w-100">
+          <mat-label>
+            <mat-icon>run_circle</mat-icon><span class="ml-2">Select An App To Get Started</span>
+          </mat-label>
+          <mat-select [(value)]="selectedApp" (selectionChange)="appSelected($event)" required="required">
+            <mat-select-trigger class="align-middle"><span class="align-middle">{{selectedApp?.title}}</span></mat-select-trigger>
+            <mat-option *ngFor="let a of appList$ | async" [value]="a" matTooltip="{{a?.description}}">{{ a.title }}
+              <mat-icon class="ml-1" *ngIf="a.description" matTooltip="{{a.description}}">info</mat-icon>
+              <!--mat-icon.ml-1(*ngIf="a.appPreferences", matTooltip="{{a.appPreferences}}" ) note-->
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="columns" *ngIf="hasApp()">
+      <div class="column is-one-third-tablet">
+        <div class="box">
+          <p class="subtitle">
+            <mat-icon class="mr-1 is-info">note_add</mat-icon>Select a Template
+          </p>
+          <hr/>
+          <div class="block">
+            <mat-selection-list class="w-100" id="templates" [multiple]="false">
+              <mat-list-option class="has-background-primary has-text-light" *ngIf="status !== 'Creating'" (click)="createTemplate()"><small>Add New Template</small>
+                <mat-icon matListIcon="matListIcon">add</mat-icon>
+              </mat-list-option>
+              <mat-list-option *ngFor="let t of templateList$ | async " [value]="t"><small class="align-middle" (click)="selectTemplate(t)" matTooltip="{{t.templateDescription}}">
+                  <!--mat-icon.mr-1(matListIcon, *ngIf="t.templateDescription", matTooltip="{{t.templateDescription}}") info-->{{t.templateName}}
+                  <!--mat-icon.ml-1(matListIcon, *ngIf="t.templateText", matTooltip="{{t.templateText}}" ) notes--></small>
+                <!--span(style="flex: 1 1 auto;")-->
+                <mat-icon matListIcon="matListIcon" matTooltip="Delete" color="accent" (click)="[selectTemplate(t), deleteTemplate()]">delete</mat-icon>
+                <mat-icon class="rowIcon" matListIcon="matListIcon" (click)="selectTemplate(t)" matTooltip="Edit Template">edit</mat-icon>
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+          <!--.block-->
+          <!--  button.button.is-align-content-end.is-primary( [disabled]="(!selectedApp || !selectedApp?.idAdmApp || selectedApp?.idAdmApp === 0)", (click)="createTemplate()") Add New-->
+          <!--    mat-icon.ml-1 add-->
+        </div>
+      </div>
+      <div class="column is-two-thirds-tablet">
+        <div class="box" *ngIf="status !== 'Empty'">
+          <form [formGroup]="templateFormGroup">
+            <div class="title">{{status}} Text Template</div>
+            <hr/>
+            <mat-form-field class="w-100">
+              <mat-label>Template Name</mat-label><input matInput required formControlName='templateName' placeholder="Midwest Overall Themes" >
+            </mat-form-field><br/>
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Template Description</mat-label><textarea matInput formControlName='templateDescription' placeholder="Used by the midwest region to help support overall themes"> </textarea>
+            </mat-form-field><br/>
+            <mat-form-field class="w-100">
+              <mat-label>Template Text</mat-label><textarea matInput required formControlName='templateText' rows="8" placeholder="the actual text you want to insert" > </textarea>
+            </mat-form-field><br/>
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Template Link</mat-label><input matInput type="url" formControlName='templateLink' placeholder="http://docs.google.com/mytemplateinfo" >
+            </mat-form-field><br/>
+            <mat-form-field appearance="fill">
+              <mat-label>Sort Order</mat-label><input matInput type="number" formControlName='sortOrder' placeholder="http://docs.google.com/mytemplateinfo" >
+            </mat-form-field><br/>
+            <div class="block mt-2">
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <button class="m-1" mat-button="mat-button" mat-raised-button="mat-raised-button" color="warn" (click)="deleteTemplate()">Delete
+                      <mat-icon class="ml-1">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <button class="m-1" mat-button="mat-button" mat-raised-button="mat-raised-button" color="primary" [disabled]="templateFormGroup.invalid" (click)="updateTemplate()">Save
+                      <mat-icon class="ml-1">save</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+<section class="hero is-large is-info">
+  <div class="hero-body">
+    <img style="float:right" src="/assets/logo/elsquare.jpg" width="175px" alt="webSTR" class="shadow">
+    <p class="title" matTooltip="{{appVersion}}">
+      <em *ngIf="!isProduction"> {{whichEnv}} </em>
+      webSTR Admin</p>
+    <p class="subtitle">Setting up webSTR</p>
+    <div *ngIf="ngAuth.user | async as user; else showLogin" class="tile is-ancestor">
+      <div class="tile is-ancestor is-7 is-offset-1">
+        <div class="tile is-parent">
+          <article class="tile is-child notification is-info shadow ">
+            <p class="subtitle">
+              <mat-icon> accessibility_new</mat-icon>
+              Welcome, {{ user.displayName }}!
+            </p>
+            <a class="block button is-link" [routerLink]="'/home'">
+              <mat-icon> home</mat-icon>
+              <span class="align-middle ml-1"> Hit the Home Page! </span>
+            </a>
+            <div class="block">
+            <button (click)="logout()" class=" button " >
+              <mat-icon class="mr-1">
+                logout
+              </mat-icon>
+              Logout
+            </button>
+            </div>
+
+          </article>
+        </div>
+      </div>
+    </div>
+    <ng-template #showLogin>
+<!--      <p>Login to get going:</p>-->
+      <button (click)="login()" class="block button is-primary">
+        <mat-icon class="mr-1">logout</mat-icon>
+        Login with Google
+      </button>
+    </ng-template>
+  </div>
+  <div class="level m-2">
+    <div class="level-left">
+      <div class="level-item">
+        <mat-icon class="mr-1">run_circle</mat-icon>
+        <span><strong>adminSTR</strong> v: {{appVersion}}</span>
+      </div>
+    </div>
+    <div class="level-right">
+      <div class="level-item">
+        <mat-icon class="mr-1" matTooltip="Minimum Needed: {{minDBVersion}}" color="{{dbVersionColor()}}">
+          snippet_folder
+        </mat-icon>
+        <span matTooltip="This is the version of the database"> <strong>DB</strong> v: {{currentDBVersion}}</span>
+      </div>
+      <div class="level-item">
+        <mat-icon class="ml-2" matTooltip="Data Connection: {{dataUrl}}"
+                  color="{{connectionError ? 'warn' : ''}}">cloud
+        </mat-icon>
+      </div>
+    </div>
+  </div>
+</section>
+<div *ngIf="!isProduction">
+  <section class="notification is-warning" *ngIf="testApp$ | async; let app; else showNoApp ">
+    <p class="title" matTooltip="{{app.description}}" *ngIf="app">Test Logins for: {{app.title }}</p>
+    <p class="subtitle">Click one of these buttons to login as a test user</p>
+    <button *ngFor="let testLogin of testUserList$ | async" class="button is-link mr-2"
+            (click)="handleTestLogin(testLogin.idAdmUser, testLogin.userEmail, testLogin.idAdmApp)"
+            matTooltip="{{testLogin.userEmail}}" >
+      <mat-icon class="mr-1">{{userService.userIcon(testLogin.idUserType)}}</mat-icon>
+      <span>{{testLogin.userName}}</span>
+    </button>
+  </section>
+  <ng-template #showNoApp>
+    <section class="notification is-danger">
+      <p class="title">No Test Application defined in the database</p>
+    </section>
+  </ng-template>
+</div>

@@ -1,0 +1,56 @@
+
+<app-menu-main></app-menu-main>
+<section class="hero is-medium is-link mat-typography">
+  <div class="hero-body">
+    <p class="title">You are logged in to webSTR's Admin Service</p>
+    <p class="subtitle">version {{appVersion}}</p>
+  </div>
+  <div class="level m-2">
+    <div class="level-left">
+      <div class="level-item">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li><a [routerLink]="'/login'"><em>adminSTR</em></a></li>
+            <li><a href="/home">Home</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="level-right">
+      <div class="level-item">
+        <!--a([routerLink]="'/login'") Logout {{me?.userName}}--><a class="button" (click)="logout()">
+          <mat-icon class="mr-1">logout</mat-icon>Logout {{me?.userName}}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="mt-2 container">
+  <div class="box mb-2">
+    <p class="title">Welcome</p>
+    <p class="subtitle">This is the home screen for webSTR</p>
+    <p>Below, find the apps that are defined in webSTR, with links to dig in and edit them!</p>
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <article class="tile is-child notification is-info" *ngFor="let app of apps$ | async">
+        <p class="title" matTooltip="App ID: {{app.idAdmApp}}">
+          <a routerLink="/apps" [queryParams]="{ id: app.idAdmApp }">{{ app.title }}</a>
+        </p>
+        <p class="subtitle">{{ app.description }}
+          <mat-icon class="ml-2 float-right align-middle" matTooltip="Preferences JSON:
+ {{app.appPreferences}}" *ngIf="app.appPreferences">topic</mat-icon>
+        </p>
+        <hr/>
+        <div class="block">
+          <p class="mb-2"><em>If it looks like a link, you can probably click it. :)</em></p>
+        </div>
+        <div class="block"><strong class="tag mr-2 p-1">{{app.frameworks?.length || 'No'}}</strong><span>Frameworks</span></div>
+        <div class="block"><strong class="tag mr-2 p-1">{{ app.periods?.length|| 'No' }}</strong><span>Annual Periods</span></div>
+        <div class="block"><strong class="tag mr-2 p-1">{{ app.relationships?.length|| 'No' }}</strong><span>Relationships</span></div>
+        <div class="block"><strong class="tag mr-2 p-1">{{ app.strTypes?.length|| 'No' }}</strong><span>STR Types</span></div>
+        <div class="block"><strong class="tag mr-2 p-1">{{ app.seasons?.length|| 'No' }}</strong><span>Seasons</span></div>
+        <div class="block"><a [routerLink]="['/template', app.idAdmApp]"><strong class="tag mr-2 p-1">{{ app.templates?.length|| 'No' }}</strong><span>Text Templates</span></a></div>
+      </article>
+    </div>
+  </div>
+</section>

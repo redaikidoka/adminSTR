@@ -1,0 +1,44 @@
+
+<section class="mat-typography">
+  <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand"><a class="navbar-item" routerLinkActive="active" [routerLink]="'/home'"><img class="has-shadow" src="/assets/logo/elsquare.jpg" style="height: 28px; width:28px; "/></a><a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false" data-target="navbarAdminSTR"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></a></div>
+    <div class="navbar-menu" id="navbarAdminSTR">
+      <div class="navbar-start"><a class="navbar-item" routerLinkActive="active" [routerLink]="'/home'">
+          <mat-icon>home</mat-icon>Home</a><a class="navbar-item" routerLinkActive="active" [routerLink]="'/apps'">
+          <mat-icon>run_circle</mat-icon>Apps</a><a class="navbar-item" routerLinkActive="active" [routerLink]="'/user'">
+          <mat-icon>person</mat-icon>Users</a>
+        <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">System Admin</a>
+          <div class="navbar-dropdown"><a class="navbar-item" routerLinkActive="active" [routerLink]="'/user'">
+              <mat-icon>person</mat-icon><span>User Administration</span></a><a class="navbar-item" mat-button="mat-button" routerLinkActive="active" [routerLink]="'/template'">
+              <mat-icon>note_add</mat-icon><span>Text Templates</span></a></div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">
+            <mat-icon class="mr-1 align-middle">account_tree</mat-icon>STR Content Setup</a>
+          <div class="navbar-dropdown"><a class="navbar-item" routerLinkActive="active" [routerLink]="'/domains'">Domains</a></div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">
+            <mat-icon class="mr-1 align-middle">help</mat-icon>STR Content Setup</a>
+          <div class="navbar-dropdown"><a class="navbar-item" target="_blank" href="https://docs.google.com/document/d/1fP0umyKlSfHtuVBswo6IalZAT82eTlJnsEnMk2wKd9Y/edit?usp=sharing">
+              <mat-icon>menu_book</mat-icon><span class="align-middle ml-1">STR Process</span></a><a class="navbar-item" *ngIf="!isProduction" mat-button="mat-button" target="_blank" href="https://docs.google.com/document/d/1XZptmPKqJyoNt1GZ_pgk4ZAHu0sAQhiEF3DoGc3JM08/edit#heading=h.qiukupk3p0gq">
+              <mat-icon>weekend</mat-icon><span class="align-middle ml-1">Full Testing Guide</span></a><a class="navbar-item" *ngIf="!isProduction" mat-button="mat-button" target="_blank" href="https://docs.google.com/document/d/1XH4aKyw6UyrNalmAHHewZOltmVPb0oz2sbwP9R6_QNk/edit#">
+              <mat-icon>weekend</mat-icon><span class="align-middle ml-1">Partner & Enroll Testing Guide</span></a><a class="navbar-item" *ngIf="!isProduction" mat-button="mat-button" target="_blank" href="https://docs.google.com/document/d/1IItRI-My7kZZYGxth1-a1_SqtnqRvIaST1wy4G8HGts/edit#heading=h.glhnqgje4tp">
+              <mat-icon>bug_report</mat-icon><span class="align-middle ml-1">Report Error</span></a></div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <!--ng-container(*ngIf="(me$ | async)?.idAdmUser > 0; else showNoUser")-->
+            <!--  a.button.is-light(*ngIf="me$ | async as me", (click)="logout()")-->
+            <!--    mat-icon.mr-1 logout-->
+            <!--    | Logout {{me.userName}}-->
+            <!--ng-template#showNoUser-->
+            <!--  a.button(routerLinkActive='true', [routerLink]="'/login'")-->
+            <!--    mat-icon.mr-1 login-->
+            <!--    | Login!-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
